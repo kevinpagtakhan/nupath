@@ -21,7 +21,7 @@ User Id: <%= post._by._id %><br />
   Comment Id: <%= comment._id %><hr />
 <% }) %>
 <form class="" action="/posts/<%= post._id %>/comments" method="post">
-  <textarea name="content" rows="8" cols="40"></textarea><br>
+  <textarea id="post" class="form-control" rows="2"></textarea><br>
   <input type="submit" name="submit" value="Submit">
 </form>
 <hr />
