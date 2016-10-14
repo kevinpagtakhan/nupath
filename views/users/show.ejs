@@ -21,11 +21,13 @@
     <h3>Achievements</h3>
     <hr>
 <% data.achievements.forEach(function(el){ %>
+  <% if (el.active == true) { %>
   <div id="<%= el._id %>" class="achievement">
     <small><%= el.year%></small>
     <h4><%= el.title%></h4>
     <p><%= el.description%></p>
   </div>
+  <% } %>
 
 <% }) %>
   </div>
@@ -34,6 +36,7 @@
   <div class="col-md-8">
 
   <% data.posts.forEach(function(post) { %>
+    <% if(post.active == true) { %>
     <div id="<%= post._id %>" class="post wbg">
       <div class="avatar">
         <%= data.local.name[0] %>
@@ -53,9 +56,10 @@
               <div class="avatar">
                 <%= comment._by.local.name[0] %>
               </div>
-              <p class="comment-content"><strong><%= comment._by.local.name %></strong> <%= comment.content %></p>
+              <p class="comment-content"><strong><%= comment._by.local.name %></strong> <%= comment.content %>
               <% if(currentUser._id.toString() == comment._by._id.toString()){ %>
-              <% } %>
+                <button class="btn-icon btn-delete-comment"><i class="fa fa-trash"></i></button>
+              <% } %></p>
             </div>
           <% } %>
         <% }) %>
@@ -67,6 +71,7 @@
         </span>
       </div>
   </div>
+  <% } %>
   <% }) %>
 
 
@@ -92,8 +97,8 @@
 
   $('body').on('click', '.btn-new-comment', function(evt){
     evt.preventDefault();
-    var postId = $(evt.target).parent()[0].id;
-    var comment = $(evt.target).siblings('.input-new-comment');
+    var postId = $(evt.target).parent().parent().parent()[0].id;
+    var comment = $(evt.target).parent().siblings('.input-new-comment');
     var opts = {
       method: 'post',
       url: '/posts/' + postId + '/comments',
@@ -101,14 +106,18 @@
       data: JSON.stringify({content: comment.val()})
     };
     var cb = function(data){
-      comment.val('');
+      console.log(data._id);
       var newComment = '';
+      newComment += '<div class="avatar">'
+      newComment += '<%= data.local.name[0] %>'
+      newComment += '</div>'
+      newComment += '<button class="btn-icon btn-delete-post"><i class="fa fa-trash"></i></button>'
       newComment += '<div id="' + data._id + '">';
-      newComment += '<p><strong><%= currentUser.local.name %></strong>:&#8195;' + data.content + '</p>';
+      newComment += '<p><strong><%= currentUser.local.name %></strong> ' + data.content + '</p>';
       // newComment += '<input class="btn btn-danger btn-delete-comment" type="submit" name="submit" value="Delete Comment">'
       newComment += '<div>';
 
-      $('.comments').append(newComment);
+      $('#' + postId + ' .comments').append(newComment);
     };
     $.ajax(opts).done(cb);
   });

@@ -2,7 +2,7 @@ var User = require('../models/User.js');
 
 module.exports = {
   index: function(req, res){
-    User.findById(req.params.id).exec(function(err, data){
+    User.findById(req.params.id, {active: true}).exec(function(err, data){
       if(err) return res.json(err);
       res.json(data.achievements)
     })
