@@ -1,99 +1,93 @@
-<head>
-  <style media="screen">
+<style med
+ia="screen">
+html, body {
+  min-width: 100%;
+  min-height: 100%;
+  height: 100%;
+}
 
-.bckg-img{
-    min-height: 100%;
-    min-width: 1024px;
-    width: 100%;
-    height: auto;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -9999;
-  }
-  body{
-    font-size: 20px;
-    color: #01E895;
-  }
-  h1{
-    font-size: 60px;
-    font-weight: 900;
-  }
-  #login{
-    height: 400px;
-    width: 400px;
-    float: right;
-  }
-  p{
-    font-size: 30px;
-  }
+.title{
+  color: #000;
+  font-size: 60px;
+  padding-bottom: 70px;
+}
+
+.title small{
+  color: #000;
+}
+
+body {
+  background-image: url('http://wholeheartsfamilycenter.com/wp-content/uploads/2015/03/26.jpg');
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+#body-overlay{
+  min-width: 100%;
+  height: 100%;
+  min-height: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  background: -webkit-radial-gradient(#fff 30%, rgba(0, 0, 0, 0) 70%);
+  background: -o-radial-gradient(#fff 30%, rgba(0, 0, 0, 0) 70%);
+  background: -moz-radial-gradient(#fff 30%, rgba(0, 0, 0, 0) 70%);
+  background: radial-gradient(#fff 30%, rgba(0, 0, 0, 0) 70%);
+  background-size: 2px;
+}
 
   </style>
-</head>
 
-<body>
+<h1 class="text-center title ">nUPath<small> A step up towards your new path.</small></h1>
+<div id="login" class="col-md-5 col-md-offset-7 wbg">
+  <h3>Login</h3>
 
-  <h1 class="text-center">nUPath<small> A step up towards your new path.</small></h1>
+  <form action="/login" method="post">
+      <div class="form-group">
+          <label>Email</label>
+          <input type="text" class="form-control" name="email">
+      </div>
+      <div class="form-group">
+          <label>Password</label>
+          <input type="password" class="form-control" name="password">
+      </div>
 
-  <div>
-    <img src="http://wholeheartsfamilycenter.com/wp-content/uploads/2015/03/26.jpg" class="bckg-img" />
-  </div>
+      <button type="submit" class="btn btn-default">Login</button>
+  </form>
+  <hr/>
+  <p>Don't have an account? <a href="/signup">Register</a> here!</p>
 
-<div id="login" class="text-center">
-    <h1>Login</h1>
-
-    <form action="/login" method="post">
-        <div class="form-group">
-            <label>Email</label>
-            <input type="text" class="form-control" name="email">
+  <div id="gridSystemModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h2 class="modal-title" id="gridModalLabel">nUPath</h2>
         </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" name="password">
-        </div>
-
-        <button type="submit" class="btn btn-warning btn-lg">Login</button>
-    </form>
-
-    <br>
-
-<p>Or , <a href="/signup">Sign Up</a>!</p>
-
-    <hr/>
-
-    <div id="gridSystemModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h2 class="modal-title" id="gridModalLabel">nUPath</h2>
-          </div>
-          <div class="modal-body">
-            <div class="container-fluid bd-example-row">
-              <div class="row">
-                <u>What is nUPath?</u> <br>
-                <small>nUPath is a web application for students.  Targeted to Junior highschoolers and up, nUPath gives young students a platform to display their achievements, and connect with other students, faculty, schools and universities.</small>
-              </div> <br>
-              <div class="row">
-                <u>Why choose nUPath?</u> <br>
-                <small>Colleges and universities utilize social media platforms to get to know potential students before accepting them. In this era of social media everything, it's hard for students not to get distracted by Facebook status updates or Twitter tweets or Snapchat chats.  Students need to place where they can start building their online presence in a positive way.  That's where nUPath comes in.  nUPath is not only an online portfolio, it's a place where nUPathers can connect with each other students and express their questions or comments about their school life.</small>
-              </div> <br>
-              <div class="row">
-                <u>How does it work?</u> <br>
-                <small> Students can sign up with ease by proving their name, email address, and school.  After signing up, students can start building their online portfolio by filling out the achievements form.  And that's it!  Schools and employers can view student profiles. All nUPathers can post questions or comments to the newsfeed.  nUPathers can also use our direct messaging feature to connect with other nUPathers directly.</small>
-              </div>
+        <div class="modal-body">
+          <div class="container-fluid bd-example-row">
+            <div class="row">
+              <u>What is nUPath?</u> <br>
+              <small>nUPath is a web application for students.  Targeted to Junior highschoolers and up, nUPath gives young students a platform to display their achievements, and connect with other students, faculty, schools and universities.</small>
+            </div> <br>
+            <div class="row">
+              <u>Why choose nUPath?</u> <br>
+              <small>Colleges and universities utilize social media platforms to get to know potential students before accepting them. In this era of social media everything, it's hard for students not to get distracted by Facebook status updates or Twitter tweets or Snapchat chats.  Students need to place where they can start building their online presence in a positive way.  That's where nUPath comes in.  nUPath is not only an online portfolio, it's a place where nUPathers can connect with each other students and express their questions or comments about their school life.</small>
+            </div> <br>
+            <div class="row">
+              <u>How does it work?</u> <br>
+              <small> Students can sign up with ease by proving their name, email address, and school.  After signing up, students can start building their online portfolio by filling out the achievements form.  And that's it!  Schools and employers can view student profiles. All nUPathers can post questions or comments to the newsfeed.  nUPathers can also use our direct messaging feature to connect with other nUPathers directly.</small>
             </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
-    <div class="bd-example bd-example-padded-bottom">
-      <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#gridSystemModal">
-        About nUPath
-      </button>
-    </div>
-
+  </div>
+  <div class="bd-example bd-example-padded-bottom">
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#gridSystemModal">
+      About nUPath
+    </button>
+  </div>
 </div>

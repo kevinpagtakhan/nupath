@@ -13,10 +13,11 @@
   </head>
   <body>
 
-    <% include navbar %>
-
-    <div class="container">
-      <%- body %>
+    <div id="body-overlay">
+      <% include navbar %>
+      <div class="container">
+        <%- body %>
+      </div>
     </div>
   </body>
 </html>
