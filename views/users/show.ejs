@@ -108,6 +108,7 @@
     var cb = function(data){
       console.log(data._id);
       var newComment = '';
+      newComment += '<div class="comment">'
       newComment += '<div class="avatar">'
       newComment += '<%= data.local.name[0] %>'
       newComment += '</div>'
