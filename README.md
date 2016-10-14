@@ -8,7 +8,7 @@ In the modern age of social media, students have various platforms for communica
 **nUPath** is designed with the purpose of helping students get a jumpstart on their career path after graduation.  High school Juniors and Seniors can use nUPath as their first online resume/portfolio.  College students can use nUPath to enhance their resume building skills and gain access to other universities and employers.  Through nUPath, students can connect worldwide to teachers, professors, faculty members, and fellow students.  
 
 
-**[Visit site here](https://stormy-tundra-22793.herokuapp.com/login)**
+**[Visit site here](https://stormy-garden-71279.herokuapp.com/login)**
 
 Dash board of the site:
 
@@ -46,7 +46,7 @@ Dash board of the site:
 ###Access to site
 1. Remote:
 	Site is live. Powered by mLab and Heroku
-	**[Click here to visit](https://stormy-tundra-22793.herokuapp.com/login)**
+	**[Click here to visit](https://stormy-garden-71279.herokuapp.com/login)**
 
 2. Locally:
 	Download the entire contents and open with your editor:
