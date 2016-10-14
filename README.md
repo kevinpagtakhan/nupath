@@ -7,8 +7,8 @@ In the modern age of social media, students have various platforms for communica
 
 **nUPath** is designed with the purpose of helping students get a jumpstart on their career path after graduation.  High school Juniors and Seniors can use nUPath as their first online resume/portfolio.  College students can use nUPath to enhance their resume building skills and gain access to other universities and employers.  Through nUPath, students can connect worldwide to teachers, professors, faculty members, and fellow students.  
 
-<br>
-[Visit site here](https://stormy-tundra-22793.herokuapp.com/login)
+
+**[Visit site here](https://stormy-tundra-22793.herokuapp.com/login)**
 
 Dash board of the site:
 
@@ -45,28 +45,58 @@ Team KAT
 
 
 ---
+
+###Access to site
+1. Remote:
+	Site is live. Powered by mLab and Heroku
+	**[Click here to visit](https://stormy-tundra-22793.herokuapp.com/login)**
+	
+2. Locally: 
+	Download the entire contents and open with your editor:
+>* Steps:
+		
+		1. install npm | install node module
+		2. create a .env file and paste
+		  MONGO_URL=mongodb://nupath:nupath123@ds029745.mlab.com:29745/heroku-nupath
+		3. This will allow to communicate with mLab | online db.
+		4. Enjoy the site in your local machine
+		
+
+
+		
 <br><br>
 ###Technologies Used
 >* Languages: Javascript, HTML5/CSS
->* Web-Application Frameworks: Node.js [Express | Socket.IO | SocketStream]
->* Front-end Libraries: jQuery, Bootstrap
+>* Web-Application Frameworks: Node.js | Express
+>* Front-end Libraries: jQuery, Bootstrap, Ajax
 >* Database: MongoDB
->* Object Relational/Document Mappers: Mongoose
->* CSS pre-compilers: SaSS
+>* Object Relational/Document Mappers: Mongoose, mLab
 >* Version Control: Git/ Github
 >* Deployment: Heroku
+
+
+>* NPM Packages:
+		
+		Dotenv
+		Express
+		Http
+		Socket.IO
+		Morgan
+		Mongoose
+		Method-override
+		Body-parser
+		Ejs
+		Express-ejs-layouts
+		Connect-flash
+		Cookie-parser
+		Express-session
+		Connect-mongo
+		Passport
+		
 
 <br><br>
 
 ---
-
-###Access to site
-
-
-
-###Instructions
-
-
 
 ### Data Modeling
 
@@ -104,14 +134,15 @@ User POV:
 
 
 ###Contribution:
-
+*	Fork it and enjoy playing with it
+*	Make suggestions for improvements and or enhancements
 
 
 ###Acknowledgements:
 Credits:<br>
 
-* npm packages:
-
-npm Packeges| Author/Authors
+Assists | Role
 --------------|------
-express | ganey
+Philippe | Teacher
+Jimmy | Teacher
+Comrack|TA
