@@ -19,13 +19,10 @@ Dash board of the site:
 
 ###Acknowledgement
 
-Philippe Luchansky
-
-TA Conrad
-
-Roland Abregorivas
-
-Team KAT
+* Philippe Luchansky
+* TA Conrad
+* Roland Abregorivas
+* Team KAT
 
 ---
 
@@ -50,20 +47,20 @@ Team KAT
 1. Remote:
 	Site is live. Powered by mLab and Heroku
 	**[Click here to visit](https://stormy-tundra-22793.herokuapp.com/login)**
-	
-2. Locally: 
+
+2. Locally:
 	Download the entire contents and open with your editor:
 >* Steps:
-		
+
 		1. install npm | install node module
 		2. create a .env file and paste
 		  MONGO_URL=mongodb://nupath:nupath123@ds029745.mlab.com:29745/heroku-nupath
 		3. This will allow to communicate with mLab | online db.
 		4. Enjoy the site in your local machine
-		
 
 
-		
+
+
 <br><br>
 ###Technologies Used
 >* Languages: Javascript, HTML5/CSS
@@ -76,7 +73,7 @@ Team KAT
 
 
 >* NPM Packages:
-		
+
 		Dotenv
 		Express
 		Http
@@ -92,7 +89,7 @@ Team KAT
 		Express-session
 		Connect-mongo
 		Passport
-		
+
 
 <br><br>
 
@@ -134,15 +131,5 @@ User POV:
 
 
 ###Contribution:
-*	Fork it and enjoy playing with it
+*	[Fork it](https://github.com/kevinpagtakhan/nupath) and enjoy playing with it
 *	Make suggestions for improvements and or enhancements
-
-
-###Acknowledgements:
-Credits:<br>
-
-Assists | Role
---------------|------
-Philippe | Teacher
-Jimmy | Teacher
-Comrack|TA
