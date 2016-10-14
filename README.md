@@ -19,6 +19,14 @@ Dash board of the site:
 
 ###Acknowledgement
 
+Philippe Luchansky
+
+TA Conrad
+
+Roland Abregorivas
+
+Team KAT
+
 ---
 
 ###Content
@@ -66,11 +74,6 @@ Dash board of the site:
 ![nupath_homepage_wireframe](public/images/nupath_homepage_wireframe.png)
 ![nupath_profilepg_wireframe](public/images/nupath_profilepg_wireframe.png)
 ---
-
-###Lags
-
-
-
 
 ###User Stories
 <hr>

@@ -8,7 +8,6 @@
   <div class="input-group input-user-search">
     <input type="text" class="form-control" id="search-text" name="content" placeholder="Search User">
     <span class="input-group-btn">
-      <button id="search" class="btn btn-outline-success" type="submit">Search</button>
     </span>
   </div>
 </div>
@@ -38,9 +37,7 @@
   //     }
   //   })
   // }
-
   $('#search-text').on('keyup', function(evt){
-
     $.each(($('.user').children('.name')), function(i, el) {
       // console.log($(el)[0].innerText)
       // if( $(el)[0].innerText == $('#search-text').val()){
@@ -54,7 +51,6 @@
         $(this).parent().hide();
       }
     })
-
     // });
     //   console.log($(el));
       // if($(el).children('.name').text().toLowerCase() != $(evt.target).val().toLowerCase()){
