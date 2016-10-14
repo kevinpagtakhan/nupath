@@ -28,6 +28,7 @@
   <textarea id="post" class="form-control" rows="3"></textarea><br>
   <input id="post-btn" class="btn btn-success" type="submit" name="submit" value="Post">
   </div>
+  <div class="post-container">
   <% data.forEach(function(post) { %>
     <div id="<%= post._id %>" class="post wbg">
       <div class="avatar">
@@ -66,6 +67,7 @@
   </div>
   <% }) %>
   </div>
+  <%# </div>%>
 </div>
 </div>
 
@@ -76,10 +78,11 @@
 
   var postInput = $('#post')
 
-  var panel = $('.panel-body')
+  var panel = $('.post-container')
 
   postBtn.on('click', function(evt){
     evt.preventDefault();
+    console.log($(panel));
     var opts = {
       method:'post',
       url:'/posts',
@@ -89,23 +92,23 @@
     var cb = function(data){
       postInput.val('');
       var newPost = '';
-      newPost += '<div id="' + data._id + '">';
-      newPost += '<p>' + data._by.local.name + '</p>';
-      newPost += '<p>' + data.content + '</p>';
-      newPost += '<p>Post Id: ' + data._id + '</p>';
-      newPost += '<p>User Id: ' + data._by._id + '</p>';
-      newPost += '<p>' + data.createdAt + '</p>';
-      newPost += '<p><a href="/posts/' + data._id + '">View</a></p>';
-      newPost += '<input class="btn btn-danger btn-delete" type="submit" name="submit" value="Delete Post">';
-      newPost += '<hr />';
-      newPost += '<span class="help-block">Comment on this post!</span>'
-      newPost += '<form class="" action="/posts/' + data._id + '/comments" method="post">'
-      newPost += '<textarea id="comment" name="content" class="form-control" rows="2"></textarea><br>'
-      newPost += '<input class="btn btn-success btn-delete" type="submit" name="submit" value="Post Comment">';
-      newPost += '<br />'
-      newPost += '</form>'
-      newPost += '</div>';
-      newPost += '<hr>';
+      newPost += '<div id="' + data._id + '" class="post wbg">'
+      newPost += '<div class="avatar">'
+      newPost += data._by.local.name[0];
+      newPost += '</div>'
+      newPost += '<p class="name">'+ data._by.local.name +'</p>'
+      newPost += '<h4>' + data.content + '</h4>'
+      newPost += '<p class="date">Just now</p>'
+      newPost += '<hr>'
+      newPost += '<div class="comments">'
+      newPost += '</div>'
+      newPost += '<div class="input-group input-group-comment">'
+      newPost += '<input type="text" class="form-control input-new-comment" id="comment" name="content" placeholder="">'
+      newPost += '<span class="input-group-btn">'
+      newPost += '<button class="btn btn-default btn-new-comment" type="button">Post Comment</button>'
+      newPost += '</span>'
+      newPost += '</div>'
+      newPost += '</div>'
       // var newPost = $('<div>', {id: data['_id'], class: 'panel-body', text: data['content']});
       // console.log(data);
       panel.prepend(newPost);
@@ -141,13 +144,20 @@
     var cb = function(data){
       comment.val('');
       var newComment = '';
-      newComment += '<div id="' + data._id + '">';
-      newComment += '<p>' + data.content + '</p>';
-      newComment += '<p>Comment Id: ' + data._id + '</p>';
-      newComment += '<input class="btn btn-danger btn-delete-comment" type="submit" name="submit" value="Delete Comment">'
-      newComment += '<hr />';
-      newComment += '<div>';
 
+      newComment += '<div id="' + data._id + '" class="comment">'
+      newComment += '<div class="avatar">'
+      newComment += '<%= currentUser.local.name[0] %>'
+      newComment += '</div>'
+      newComment += '<p class="comment-content"><strong><%= currentUser.local.name %></strong> ' + data.content  + '</p>'
+      newComment += '</div>'
+
+      // newComment += '<div id="' + data._id + '">';
+      // newComment += '<p>' + data.content + '</p>';
+      // newComment += '<p>Comment Id: ' + data._id + '</p>';
+      // newComment += '<input class="btn btn-danger btn-delete-comment" type="submit" name="submit" value="Delete Comment">'
+      // newComment += '<hr />';
+      // newComment += '<div>';
       $('.comments').append(newComment);
     };
     $.ajax(opts).done(cb);
