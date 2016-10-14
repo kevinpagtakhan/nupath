@@ -38,10 +38,9 @@
       <div class="avatar">
         <%= data.local.name[0] %>
       </div>
-      <%# if(currentUser._id.toString() == post._by._id.toString()){ %>
-      <!--<input class="btn btn-danger btn-delete-post" type="submit" name="submit" value="Delete Post">-->
+      <% if(currentUser._id.toString() == post._by.toString()){ %>
       <button class="btn-icon btn-delete-post"><i class="fa fa-trash"></i></button>
-      <%# } %>
+      <% } %>
       <p class="name"><%= data.local.name %></p>
       <h4><%= post.content %></h4>
       <% var date = new Date(post.createdAt) %>
@@ -56,7 +55,6 @@
               </div>
               <p class="comment-content"><strong><%= comment._by.local.name %></strong> <%= comment.content %></p>
               <% if(currentUser._id.toString() == comment._by._id.toString()){ %>
-              <!--<input class="btn btn-danger btn-delete-comment" type="submit" name="submit" value="Delete Comment">-->
               <% } %>
             </div>
           <% } %>
