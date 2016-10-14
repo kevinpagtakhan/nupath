@@ -80,11 +80,11 @@ app.use(ejsLayouts);
 
 // <-- Start using routes
 
-// Test route
-// app.get('/', function(req, res){
-//   res.json({message: 'Working'});
-// });
-//
+
+app.get('/', function(req, res){
+  res.redirect('/profile');
+});
+
 app.use('/', authenticateRoutes);
 
 app.use(isLoggedIn);
