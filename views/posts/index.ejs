@@ -158,7 +158,7 @@
       // newComment += '<input class="btn btn-danger btn-delete-comment" type="submit" name="submit" value="Delete Comment">'
       // newComment += '<hr />';
       // newComment += '<div>';
-      $('.comments').append(newComment);
+      $('#' + postId + ' .comments').append(newComment);
     };
     $.ajax(opts).done(cb);
   });
