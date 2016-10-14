@@ -16,7 +16,7 @@
         </div>
         <div class="message">
           <p class="sender"> <%= name %> </p>
-          <% if(el.messages[el.messages.length - 1] > 0) { %>
+          <% if(el.messages.length > 0) { %>
             <p class="peek"><%= el.messages[el.messages.length - 1].content %></p>
           <% } else { %>
             <p class="peek">Say hello!</p>

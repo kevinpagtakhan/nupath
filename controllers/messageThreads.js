@@ -4,7 +4,7 @@ var Message = require('../models/Message.js');
 
 var messageThreadController = {
   index: function(req, res){
-    MessageThread.find({}).populate('users').exec(function(err, data){
+    MessageThread.find({}).populate('users messages').exec(function(err, data){
       if (err) {
         res.json(err);
       } else {

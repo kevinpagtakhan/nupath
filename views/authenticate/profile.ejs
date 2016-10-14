@@ -59,7 +59,7 @@
       <hr>
         <% user.messageThreads.forEach(function(el){%>
           <div class="messages">
-          <a href="/messages/<%= el._id %>">
+          <a href="/messages">
             <% var name = '' %>
             <% if (el.users[0]._id.toString() != currentUser._id.toString()) { %>
               <% name = el.users[0].local.name %>
