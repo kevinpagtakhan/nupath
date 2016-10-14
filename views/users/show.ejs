@@ -109,13 +109,12 @@
       console.log(data._id);
       comment.val('');
       var newComment = '';
-      newComment += '<div class="comment">'
+      newComment += '<div id="'+ data._id +'" class="comment">'
       newComment += '<div class="avatar">'
       newComment += '<%= data.local.name[0] %>'
       newComment += '</div>'
       newComment += '<button class="btn-icon btn-delete-post"><i class="fa fa-trash"></i></button>'
-      newComment += '<div id="' + data._id + '">';
-      newComment += '<p><strong><%= currentUser.local.name %></strong> ' + data.content + '</p>';
+      newComment += '<p class="comment-content"><strong><%= currentUser.local.name %></strong> ' + data.content + '</p>';
       // newComment += '<input class="btn btn-danger btn-delete-comment" type="submit" name="submit" value="Delete Comment">'
       newComment += '<div>';
 
@@ -126,9 +125,9 @@
 
   $('body').on('click', '.btn-delete-comment', function(evt){
     evt.preventDefault();
-    var postId = $(evt.target).parent().parent().parent()[0].id;
-    var commentId = $(evt.target).parent()[0].id;
-
+    var postId = $(this).parent().parent().parent().parent()[0].id;
+    var commentId = $(this).parent().parent()[0].id;
+    console.log('/posts/' + postId + '/comments/' + commentId);
     var opts = {
       method: 'delete',
       url: '/posts/' + postId + '/comments/' + commentId
