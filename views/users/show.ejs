@@ -1,10 +1,11 @@
 <div id="user-profile">
-  <h1><%= data.local.name %></h1>
 
 <div class="row">
+  <h1><%= data.local.name %></h1>
   <div class="col-md-4">
-
-    <br />
+    <div class="wbg">
+      <h3>Profile</h3>
+      <hr>
     <p>Email: <%= data.local.email %> </p>
     <p>School: <%= data.local.school %> </p>
     <p>Joined: <%= data.createdAt %> </p>
@@ -13,59 +14,64 @@
     <form class="" action="/messages/new/<%= currentUser._id%>/<%= data._id%>" method="post">
       <input class="btn btn-default" type="submit" name="name" value="Message">
     </form>
-    <hr />
     <% } %>
 
-    <hr>
-
+  </div>
+  <div class="wbg">
     <h3>Achievements</h3>
-    <br>
+    <hr>
 <% data.achievements.forEach(function(el){ %>
-  <% if(el.active) { %>
-    <h4><%= el.title%> <small><%= el.year%></small></h4>
+  <div id="<%= el._id %>" class="achievement">
+    <small><%= el.year%></small>
+    <h4><%= el.title%></h4>
     <p><%= el.description%></p>
-    <br>
-  <% } %>
+  </div>
 
 <% }) %>
   </div>
+  </div>
 
   <div class="col-md-8">
-    <h3>Posts</h3>
-    <hr>
-  <% data.posts.forEach(function(post){ %>
-    <% if(post.active) { %>
-      <div id="<%= post._id %>" class="post well">
-        <h4><%= post.content %></h4>
-        <p><%= post.createdAt %></p>
-        <p><a href="/posts/<%= post._id %>">View</a></p>
-        <% if(currentUser._id.toString() == data._id.toString()){ %>
-        <input class="btn btn-danger btn-delete-post" type="submit" name="submit" value="Delete Post">
-        <% } %>
-        <hr>
-        <div class="comments">
-          <p class="help-block">Comments</p>
-          <hr>
-          <% post.comments.forEach(function(comment){ %>
-            <% if (comment.active) { %>
-              <div class="comment" id="<%= comment._id %>">
-                <p><strong><%= comment._by.local.name %></strong>:&#8195;
-                <%= comment.content %><br /></p>
 
-                <% if (currentUser._id.toString() == comment._by._id.toString()) {%>
-                <!-- <input class="btn btn-danger btn-delete-comment" type="submit" name="submit" value="Delete Comment"><br> -->
-                <% } %>
-              </div>
-            <% } %>
-          <% }) %>
-        </div>
-        <textarea id="comment" name="content" class="form-control input-new-comment" rows="2"></textarea><br>
-        <input class="btn btn-success btn-new-comment" type="submit" name="submit" value="Post Comment">
-
-
+  <% data.posts.forEach(function(post) { %>
+    <div id="<%= post._id %>" class="post wbg">
+      <div class="avatar">
+        <%= data.local.name[0] %>
       </div>
-    <% } %>
+      <%# if(currentUser._id.toString() == post._by._id.toString()){ %>
+      <!--<input class="btn btn-danger btn-delete-post" type="submit" name="submit" value="Delete Post">-->
+      <button class="btn-icon btn-delete-post"><i class="fa fa-trash"></i></button>
+      <%# } %>
+      <p class="name"><%= data.local.name %></p>
+      <h4><%= post.content %></h4>
+      <% var date = new Date(post.createdAt) %>
+      <p class="date"><%= date.getMonth() + 1 %>/<%= date.getDate() %>/<%= date.getFullYear()%></p>
+      <hr>
+      <div class="comments">
+        <% post.comments.forEach(function(comment){ %>
+            <% if (comment.active) {%>
+              <div id="<%= comment._id %>" class="comment">
+              <div class="avatar">
+                <%= comment._by.local.name[0] %>
+              </div>
+              <p class="comment-content"><strong><%= comment._by.local.name %></strong> <%= comment.content %></p>
+              <% if(currentUser._id.toString() == comment._by._id.toString()){ %>
+              <!--<input class="btn btn-danger btn-delete-comment" type="submit" name="submit" value="Delete Comment">-->
+              <% } %>
+            </div>
+          <% } %>
+        <% }) %>
+      </div>
+      <div class="input-group input-group-comment">
+        <input type="text" class="form-control input-new-comment" id="comment" name="content" placeholder="">
+        <span class="input-group-btn">
+          <button class="btn btn-default btn-new-comment" type="button">Post Comment</button>
+        </span>
+      </div>
+  </div>
   <% }) %>
+
+
 </div>
 </div>
 </div>

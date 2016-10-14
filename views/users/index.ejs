@@ -10,15 +10,12 @@
 
 <hr>
 <%# <form class="form-inline pull-xs-right">%>
-<div class="row">
-<div class="user col-md-4">
   <input id="search-text" class="form-control" type="text" placeholder="Search User">
 </form>
-</div>
-<div class="user col-md-8">
+
 <% data.forEach(function(user) { %>
   <a href="/users/<%= user._id %>">
-  <div class="user col-md-6">
+  <div class="user col-md-4">
     <h3 class="name"><%= user.local.name %></h3>
     <p><%= user.local.email %></p>
     <p><%= user.local.school %></p>
@@ -26,8 +23,6 @@
     </div>
   </a>
 <% }) %>
-</div>
-</div>
 
 <script type="text/javascript">
   // if ($('#search-text').val() != null){

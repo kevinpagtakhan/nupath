@@ -1,44 +1,72 @@
-<div id="newsfeed" class="col-md-8 col-md-offset-2">
+
+<div class="row">
+
+<div id="newsfeed" >
 <h1>nUPath Newsfeed</h1>
 
 <hr>
-<div class="well">
-<span id="helpBlock" class="help-block">Post to Newsfeed</span>
-<label class="sr-only" for="inputHelpBlock">nUPath Newsfeed</label>
-<textarea id="post" class="form-control" rows="3"></textarea><br>
-<input id="post-btn" class="btn btn-success" type="submit" name="submit" value="Post">
-</div>
 
-<hr />
-<% data.forEach(function(post) { %>
-  <div id="<%= post._id %>" class="post">
-    <p><strong><%= post._by.local.name %></strong></p>
-    <h4><%= post.content %></h4>
-    <p><%= post.createdAt %></p>
-    <strong><a href="/posts/<%= post._id %>">View</a></strong>
-    <% if(currentUser._id.toString() == post._by._id.toString()){ %>
-    <input class="btn btn-danger btn-delete-post" type="submit" name="submit" value="Delete Post">
-    <% } %>
-    <hr>
-    <div class="comments">
-      <span class="help-block">Comment on this post!</span>
-      <% post.comments.forEach(function(comment){ %>
-          <% if (comment.active) {%>
-            <div id="<%= comment._id %>">
-            <p><strong><%= comment._by.local.name %></strong>:&#8195;
-            <%= comment.content %><br /></p>
-            <% if(currentUser._id.toString() == comment._by.toString()){ %>
-            <input class="btn btn-danger btn-delete-comment" type="submit" name="submit" value="Delete Comment">
-            <hr />
-            <% } %>
-          </div>
-        <% } %>
-      <% }) %>
+  <div class="col-md-4">
+    <div class="wbg trending">
+      <h3>Trending</h3>
+      <hr>
+      <p>#nUPath<br><small>1130 mentions</small></p>
+      <p>#USHistroy<br><small>934 mentions</small></p>
+      <p>#DonaldTrump<br><small>799 mentions</small></p>
+      <p>#Molecules<br><small>630 mentions</small></p>
+      <p>#California<br><small>157 mentions</small></p>
+      <p>#SpringBreak<br><small>130 mentions</small></p>
+      <p>#SleepingInClass<br><small>113 mentions</small></p>
+      <p>#SchoolIsCool<br><small>110 mentions</small></p>
     </div>
-    <textarea id="comment" name="content" class="form-control input-new-comment" rows="2"></textarea><br>
-    <input class="btn btn-success btn-new-comment" type="submit" name="submit" value="Post Comment">
+  </div>
+
+  <div class="col-md-8">
+  <div class="wbg">
+  <span id="helpBlock" class="help-block">Post to Newsfeed</span>
+  <label class="sr-only" for="inputHelpBlock">nUPath Newsfeed</label>
+  <textarea id="post" class="form-control" rows="3"></textarea><br>
+  <input id="post-btn" class="btn btn-success" type="submit" name="submit" value="Post">
+  </div>
+  <% data.forEach(function(post) { %>
+    <div id="<%= post._id %>" class="post wbg">
+      <div class="avatar">
+        <%= post._by.local.name[0] %>
+      </div>
+      <% if(currentUser._id.toString() == post._by._id.toString()){ %>
+      <!--<input class="btn btn-danger btn-delete-post" type="submit" name="submit" value="Delete Post">-->
+      <button class="btn-icon btn-delete-post"><i class="fa fa-trash"></i></button>
+      <% } %>
+      <p class="name"><%= post._by.local.name %></p>
+      <h4><%= post.content %></h4>
+      <% var date = new Date(post.createdAt) %>
+      <p class="date"><%= date.getMonth() + 1 %>/<%= date.getDate() %>/<%= date.getFullYear()%></p>
+      <hr>
+      <div class="comments">
+        <% post.comments.forEach(function(comment){ %>
+            <% if (comment.active) {%>
+              <div id="<%= comment._id %>" class="comment">
+              <div class="avatar">
+                <%= comment._by.local.name[0] %>
+              </div>
+              <p class="comment-content"><strong><%= comment._by.local.name %></strong> <%= comment.content %></p>
+              <% if(currentUser._id.toString() == comment._by._id.toString()){ %>
+              <!--<input class="btn btn-danger btn-delete-comment" type="submit" name="submit" value="Delete Comment">-->
+              <% } %>
+            </div>
+          <% } %>
+        <% }) %>
+      </div>
+      <div class="input-group input-group-comment">
+        <input type="text" class="form-control input-new-comment" id="comment" name="content" placeholder="">
+        <span class="input-group-btn">
+          <button class="btn btn-default btn-new-comment" type="button">Post Comment</button>
+        </span>
+      </div>
+  </div>
+  <% }) %>
+  </div>
 </div>
-<% }) %>
 </div>
 
 <script type="text/javascript">
@@ -87,8 +115,8 @@
 
   $('body').on('click', '.btn-delete-post', function(evt){
     evt.preventDefault();
-    var postId = $(evt.target).parent()[0].id;
-
+    var postId = $(this).parent()[0].id;
+    console.log(postId);
     var opts = {
       method: 'delete',
       url: '/posts/' + postId
@@ -101,8 +129,8 @@
 
   $('body').on('click', '.btn-new-comment', function(evt){
     evt.preventDefault();
-    var postId = $(evt.target).parent()[0].id;
-    var comment = $(evt.target).siblings('.input-new-comment');
+    var postId = $(evt.target).parent().parent().parent()[0].id;
+    var comment = $(evt.target).parent().siblings('.input-new-comment');
 
     var opts = {
       method: 'post',

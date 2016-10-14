@@ -53,7 +53,7 @@ module.exports = {
       data.achievements.id(req.params.achId).active = false
       data.save(function(err){
         if(err) return res.json(err);
-        res.json(data);
+        res.json(data.achievements.id(req.params.achId));
       })
     }
     })

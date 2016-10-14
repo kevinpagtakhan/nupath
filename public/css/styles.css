@@ -3,7 +3,29 @@
 }
 
 body {
-  font-family: 'Comfortaa', cursive;
+  /*font-family: 'Comfortaa', cursive;*/
+  font-family: 'Cabin', sans-serif;
+  background: #e2e2e2;
+}
+
+h4, h5, h6{
+  font-family: 'Cabin', sans-serif;
+}
+
+h1, h2, h3{
+  font-family: 'Droid Sans', sans-serif;
+}
+
+.wbg{
+  background: #fafafa;
+  border: 1px #bbb solid;
+  border-top: 3px #78c485 solid;
+  border-radius: 3px;
+  padding: 15px 20px 25px 20px;
+}
+
+hr{
+  border-color: #aaa;
 }
 
 form {
@@ -78,9 +100,135 @@ form {
   border-radius: 10px;
 }
 
-#newsfeed .post{
-  border: 1px solid #aaa;
-  padding: 20px;
-  border-radius: 10px;
+.wbg{
   margin-bottom: 20px;
+}
+
+.avatar{
+  float: left;
+  border-radius: 100%;
+  background: #78c485;
+  margin-right: 20px;
+  text-align: center;
+  color: #fff;
+  text-transform: capitalize;
+}
+
+#profile .avatar,
+#inbox .avatar{
+  height: 50px;
+  width: 50px;
+  line-height: 50px;
+}
+
+#newsfeed .avatar,
+#user-profile .avatar{
+  height: 75px;
+  width: 75px;
+  line-height: 75px;
+  font-size: 24px;
+}
+
+#users .avatar{
+  float: none;
+  height: 100px;
+  width: 100px;
+  line-height: 100px;
+  font-size: 36px;
+  margin: 0 auto;
+}
+
+#newsfeed .comment .avatar,
+#user-profile .comment .avatar{
+  height: 22px;
+  width: 22px;
+  line-height: 22px;
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+#newsfeed .comment-content{
+  min-height: 22px;
+}
+
+.wbg a {
+  color: #000;
+}
+
+.wbg a:hover {
+  text-decoration: none;
+}
+
+#profile .messages{
+  padding: 10px 0px;
+}
+
+#inbox .messages{
+  padding: 10px 0px;
+}
+
+#profile .messages:hover .avatar,
+#users .user:hover .avatar{
+  background: #77DD77;
+}
+
+#profile .message .sender,
+#inbox .message .sender{
+  font-weight: 700;
+  padding-top: 5px;
+  margin-bottom: 0;
+}
+
+#profile .message .peek,
+#inbox .message .peek{
+  font-style: italic;
+}
+
+.btn-icon{
+  background: transparent;
+  border: none;
+  float: right;
+}
+
+#profile div.achievement,
+#user-profile div.achievement{
+  margin-bottom: 0px;
+  border-left: 5px solid #aaa;
+  padding-left: 10px;
+}
+
+#profile .btn-new-achievement{
+  line-height: 60px;
+}
+
+#newsfeed .post .name,
+#newsfeed .post .date{
+  color: #777;
+}
+
+#newsfeed .trending small{
+  color: #888;
+}
+
+#users .user{
+  text-align: center;
+  padding: 70px 20px;
+}
+
+#users .user{
+  color: #000;
+}
+
+.col-md-4{
+  min-height: 0;
+}
+
+.messages-container{
+  height: 600px;
+}
+
+#inbox .messages{
+  border-radius: 5px;
+  padding-left: 10px;
+
 }

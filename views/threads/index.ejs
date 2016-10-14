@@ -1,37 +1,50 @@
+<div id="inbox">
 <h1>Messages</h1>
 <hr>
-<div class="threads col-md-4">
-<% data.forEach(function(el){%>
-  <% if(currentUser._id.toString() == el.users[0]._id.toString() || currentUser._id.toString() == el.users[1]._id.toString()) {%>
-  <div id="<%= el._id %>" class="thread well">
-    <p><%= el._id %></p>
-    <p>FROM: <% if (el.users[0]._id.toString() != currentUser._id.toString()) { %>
-      <%= el.users[0].local.name %></p>
-    <% } else { %>
-      <%= el.users[1].local.name %></p>
-    <% } %>
-    <% if(el.messages[el.messages.length > 0]) { %>
-      <p><%= el.messages[el.messages.length - 1].content %></p>
-    <% } else { %>
-      <p>Say hello!</p>
-    <% } %>
-    <p><%= el.createdAt %></p>
+<div id="" class="threads col-md-4">
+  <div class="wbg">
+    <% data.forEach(function(el){%>
+      <div id="<%= el._id %>" class="messages">
+        <% var name = '' %>
+        <% if (el.users[0]._id.toString() != currentUser._id.toString()) { %>
+          <% name = el.users[0].local.name %>
+        <% } else { %>
+          <% name = el.users[1].local.name %>
+        <% } %>
+        <div class="avatar">
+          <%= name[0] %>
+        </div>
+        <div class="message">
+          <p class="sender"> <%= name %> </p>
+          <% if(el.messages[el.messages.length - 1] > 0) { %>
+            <p class="peek"><%= el.messages[el.messages.length - 1].content %></p>
+          <% } else { %>
+            <p class="peek">Say hello!</p>
+          <% } %>
+        </div>
+      </div>
+    <% }) %>
   </div>
-  <% } %>
-<% }) %>
 </div>
 
-<div id="messages-container" class="col-md-8">
+<div class="right-side col-md-8">
+  <div id="" class="messages-container wbg">
+  </div>
 </div>
-
+</div>
 <script type="text/javascript">
-  $('.thread').on('click', function(evt){
+  $('.messages').on('click', function(evt){
+    $('.messages').css('background-color', 'transparent');
+    $(this).css('background-color', '#ADD8E6');
+    $('.right-side').html('');
+    $('.right-side').append('<div id="' + $(this).attr('id') +  '" class="messages-container wbg"></div>');
     $.ajax({
       method: 'get',
       url: '/messages/' + $(this).attr('id')
     }).done(function(data){
-      $('#messages-container').html('')
+      $('.messages-container').html('')
       var message = '';
+      var form = '';
       message += '<div id ="'  + data._id +  '">';
       message += '<div class="thread">';
       if(data.messages.length < 1){
@@ -41,26 +54,33 @@
         message += '<div class="well">' + el._by.local.name + ": " + el.content + '</div>';
       });
       message += '</div>';
-      message += '<input id="message-content" class="form-control" type="text" name="content" value="">'
-      message += '<button class="btn btn-primary send-message" type="submit" name="button">Submit</button>'
       message += '</div>';
-      $('#messages-container').append(message);
+
+      form += '<div class="input-group input-group-message">'
+      form += '<input type="text" class="form-control" id="message-content" name="content" placeholder="">'
+      form += '<span class="input-group-btn">'
+      form += '<button class="btn btn-primary send-message" type="submit">Send</button>'
+      form += '</span>'
+      form += '</div>'
+      $('.messages-container').append(message);
+      $('.right-side').append(form);
     });
   });
 
   $('body').on('click', '.send-message', function(evt){
     evt.preventDefault();
-    // console.log($(this).parent().attr('id'));
+    // console.log($(this).parent().parent().siblings('div')[0].id);
     $.ajax({
       method: 'post',
-      url: '/messages/' + $(this).parent().attr('id') + '/message',
+      url: '/messages/' + $(this).parent().parent().siblings('div')[0].id + '/message',
       contentType: 'application/json',
       data: JSON.stringify({content: $('#message-content').val(), public: 'false'})
     }).done(function(data){
       // console.log(data);
+      $('#message-content').val('')
       var message = ''
       message += '<div class="well">' + data._by.local.name + ": " + data.content + '</div>';
-      $('#messages-container .thread').append(message);
+      $('.messages-container .thread').append(message);
     });
   })
 </script>
