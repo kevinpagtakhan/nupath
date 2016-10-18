@@ -10,8 +10,8 @@ module.exports = {
       if (err) {
         res.json(err);
       } else {
-        // res.json(data)
-        res.render('posts/index', {data: data});
+        res.json(data)
+        // res.render('posts/index', {data: data});
       }
     });
   },
@@ -55,7 +55,8 @@ module.exports = {
       if (err) {
         res.json(err);
       } else {
-        res.render('posts/show', {post: data});
+        // res.render('posts/show', {post: data});
+        res.json(data);
       }
     });
   },

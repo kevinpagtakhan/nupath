@@ -8,8 +8,8 @@ var messageThreadController = {
       if (err) {
         res.json(err);
       } else {
-        res.render('threads/index', {data, data});
-        // res.json(data);
+        // res.render('threads/index', {data, data});
+        res.json(data);
       }
     });
   },
