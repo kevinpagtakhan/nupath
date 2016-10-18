@@ -19,7 +19,8 @@ module.exports = {
           if (err) {
             res.json(err);
           } else {
-            res.json(data)
+            // res.json(data);
+            res.render('users/show', {data: data});
           }
         });
       }

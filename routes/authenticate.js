@@ -16,7 +16,7 @@ authenticateRouter.route('/signup')
   failureRedirect: '/signup'
 }));
 
-authenticateRouter.get('/profile', function(req, res){
+authenticateRouter.get('/profile', isLoggedIn, function(req, res){
   console.log(req.user)
 	res.render('authenticate/profile', {user: req.user})
   // res.json(req.user)
@@ -27,5 +27,10 @@ authenticateRouter.get('/logout', function(req, res){
 	req.logout()
 	res.redirect('/')
 })
+
+function isLoggedIn(req, res, next){
+	if(req.isAuthenticated()) return next()
+	res.redirect('/login')
+}
 
 module.exports = authenticateRouter
