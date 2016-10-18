@@ -88,7 +88,10 @@ app.get('/', function(req, res){
 app.use('/', authenticateRoutes);
 
 app.use(isLoggedIn);
-app.use('/users', userRoutes);
+app.use('/users', function(req, res){
+  res.render('users/index.ejs');
+});
+app.use('/api/users', userRoutes);
 app.use('/chat-messages', chatRoutes);
 app.use('/posts', postRoutes);
 app.use('/messages', messageThreadsRoutes);
