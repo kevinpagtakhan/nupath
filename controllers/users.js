@@ -3,13 +3,14 @@
 var User = require('../models/User.js');
 
 module.exports = {
+
   index: function(req, res){
   	User.find({active: true},function(err, data){
     	if (err) {
       	res.json(err);
       } else {
-        // res.json(data);
-      	res.render('users/index', {data: data});
+        res.json(data);
+      	// res.render('users/index', {data: data});
       }
     });
   },

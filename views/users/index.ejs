@@ -1,61 +1,43 @@
-<div class="row">
-<div id="users">
+<div id="users" ng-app="myApp" ng-controller="UsersController as uc">
   <div class="row">
-<div class="col-md-8">
-  <h1>All nUPathers</h1>
-</div>
-<div class="col-md-4">
-  <div class="input-group input-user-search">
-    <input type="text" class="form-control" id="search-text" name="content" placeholder="Search User">
-    <span class="input-group-btn">
-    </span>
-  </div>
-</div>
-<hr>
+    <div class="col-md-8">
+      <h1>All nUPathers</h1>
+    </div>
+    <div class="col-md-4">
+      <div class="input-group input-user-search">
+        <input type="text" class="form-control" id="search-text" name="content" placeholder="Search User">
+        <span class="input-group-btn">
+        </span>
+      </div>
+    </div>
+    <hr>
   </div>
   <hr>
 
-  <% data.forEach(function(user) { %>
-    <a href="/users/<%= user._id %>">
-    <div class="col-md-4">
-      <div id="<%= user._id %>" class="wbg user">
-        <div class="avatar"><%= user.local.name[0] %></div>
-        <h3 class="name"><%= user.local.name %></h3>
-        <p><%= user.local.email %></p>
-        <p><%= user.local.school %></p>
-        </div>
+  <div>
+    <div class="col-md-4" ng-repeat="user in uc.users">
+      <div id={{user._id}} class="user wbg">
+        <div class="avatar">{{ user.local.name[0] }}</div>
+        <h3 class="name">{{ user.local.name }}</h3>
+        <p>{{ user.local.email }}</p>
+        <p>{{ user.local.school }}</p>
       </div>
-    </a>
-  <% }) %>
+    </div>
+  </div>
 </div>
-</div>
+
 <script type="text/javascript">
-  // if ($('#search-text').val() != null){
-  //   data.forEach(function(user) {
-  //     if($('#search-text').val().toLowerCase() == user.local.name.toLowerCase()){
-  //       $('#result').append("ganey")
-  //     }
-  //   })
-  // }
-  $('#search-text').on('keyup', function(evt){
-    $.each(($('.user').children('.name')), function(i, el) {
-      // console.log($(el)[0].innerText)
-      // if( $(el)[0].innerText == $('#search-text').val()){
-      var input = $('#search-text').val();
-      var record = $(el)[0].innerText;
-      var regex = new RegExp(input, "i")
-      $(this).parent().hide();
-      if(record.match(regex)){
-        $(this).parent().show();
-      } else {
-        $(this).parent().hide();
-      }
-    })
-    // });
-    //   console.log($(el));
-      // if($(el).children('.name').text().toLowerCase() != $(evt.target).val().toLowerCase()){
-      //   $(el).css('display','none');
-      // }
-    // })
-  })
+angular
+  .module('myApp', [])
+  .controller('UsersController', UsersController);
+
+  function UsersController($http){
+    var vm = this;
+
+    $http.get('/api/users')
+    .then(function(response) {
+        vm.users = response.data;
+    });
+  }
+
 </script>
