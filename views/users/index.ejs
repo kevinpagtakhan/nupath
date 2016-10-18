@@ -5,7 +5,7 @@
     </div>
     <div class="col-md-4">
       <div class="input-group input-user-search">
-        <input type="text" class="form-control" id="search-text" name="content" placeholder="Search User">
+        <input type="text" class="form-control" id="search-text" name="content" placeholder="Search User" ng-model="searchName">
         <span class="input-group-btn">
         </span>
       </div>
@@ -15,7 +15,7 @@
   <hr>
 
   <div>
-    <div class="col-md-4" ng-repeat="user in uc.users">
+    <div class="col-md-4" ng-repeat="user in uc.users | filter:searchName track by $index">
       <div id={{user._id}} class="user wbg">
         <div class="avatar">{{ user.local.name[0] }}</div>
         <h3 class="name">{{ user.local.name }}</h3>
@@ -39,5 +39,24 @@ angular
         vm.users = response.data;
     });
   }
+
+
+
+
+  // $('#search-text').on('keyup', function(evt){
+  //   $.each(($('.user').children('.name')), function(i, el) {
+  //     // console.log($(el)[0].innerText)
+  //     // if( $(el)[0].innerText == $('#search-text').val()){
+  //     var input = $('#search-text').val();
+  //     var record = $(el)[0].innerText;
+  //     var regex = new RegExp(input, "i")
+  //     $(this).parent().hide();
+  //     if(record.match(regex)){
+  //       $(this).parent().show();
+  //     } else {
+  //       $(this).parent().hide();
+  //     }
+  //   })
+
 
 </script>
