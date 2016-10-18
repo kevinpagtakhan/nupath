@@ -91,10 +91,20 @@ app.use(isLoggedIn);
 app.use('/users', function(req, res){
   res.render('users/index.ejs');
 });
+app.use('/chat-messages', function(req, res){
+  res.render('chat/index.ejs');
+});
+app.use('/posts', function(req, res){
+  res.render('posts/index.ejs');
+});
+app.use('/messages', function(req, res){
+  res.render('messages/index.ejs');
+});
+
 app.use('/api/users', userRoutes);
-app.use('/chat-messages', chatRoutes);
-app.use('/posts', postRoutes);
-app.use('/messages', messageThreadsRoutes);
+app.use('/api/chat-messages', chatRoutes);
+app.use('/api/posts', postRoutes);
+app.use('/api/messages', messageThreadsRoutes);
 
 
 // end using routes -->
