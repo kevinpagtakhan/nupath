@@ -241,6 +241,17 @@ form {
 }
 
 #newsfeed .alert{
-  background-color: red;
+  background-color: orange;
   line-height: 50px;
+}
+
+.negativePost{
+  opacity: 0.2;
+  border-top: 3px orange solid;
+}
+
+.blocked-post-overlay{
+  position: absolute;;
+  width: 100%;
+  height: 100%;
 }

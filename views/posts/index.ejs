@@ -30,12 +30,12 @@
         </div>
 
         <div class="posts">
-          <div id="{{ post_id }}" class="posts wbg" ng-init="postIndex = $index" ng-repeat="post in pc.posts track by $index">
-            <div class="avatar" ng-if="post.polarity != 'negative'">
+          <div id="{{ post_id }}" class="posts wbg" ng-init="postIndex = $index; isNegative = (post.polarity == 'negative')" ng-class="{negativePost: isNegative}" ng-repeat="post in pc.posts track by $index">
+            <div class="avatar" ng-if="!isNegative">
               {{ post._by.local.name[0] }}
             </div>
 
-            <div class="alert avatar" ng-if="post.polarity == 'negative'">
+            <div class="alert avatar" ng-if="isNegative">
               <i class="glyphicon glyphicon-alert"></i>
             </div>
 
@@ -62,14 +62,14 @@
               </div>
             </div>
 
-            <div class="input-group input-group-comment">
+            <div class="input-group input-group-comment" ng-if="!isNegative">
               <input type="text" class="form-control input-new-comment" id="comment" name="content" placeholder="" ng-model="pc['newComment' + post._id].content">
               <span class="input-group-btn">
                 <button class="btn btn-default btn-new-comment" type="button" ng-click="pc.submitComment(post._id, $index)">Post Comment</button>
               </span>
             </div>
-          </div>
 
+          </div>
         </div>
       </div>
     </div>
