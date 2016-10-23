@@ -1,171 +1,155 @@
+<div class="posts" ng-app="myApp" ng-controller="PostsController as pc">
+  <div class="row">
 
-<div class="row">
+    <div id="newsfeed" >
+      <h1>nUPath Newsfeed</h1>
 
-<div id="newsfeed" >
-<h1>nUPath Newsfeed</h1>
-
-<hr>
-
-  <div class="col-md-4">
-    <div class="wbg trending">
-      <h3>Trending</h3>
       <hr>
-      <p>#nUPath<br><small>1130 mentions</small></p>
-      <p>#USHistroy<br><small>934 mentions</small></p>
-      <p>#DonaldTrump<br><small>799 mentions</small></p>
-      <p>#Molecules<br><small>630 mentions</small></p>
-      <p>#California<br><small>157 mentions</small></p>
-      <p>#SpringBreak<br><small>130 mentions</small></p>
-      <p>#SleepingInClass<br><small>113 mentions</small></p>
-      <p>#SchoolIsCool<br><small>110 mentions</small></p>
+
+      <div class="col-md-4">
+        <div class="wbg trending">
+          <h3>Trending</h3>
+          <hr>
+          <p>#nUPath<br><small>1130 mentions</small></p>
+          <p>#USHistroy<br><small>934 mentions</small></p>
+          <p>#DonaldTrump<br><small>799 mentions</small></p>
+          <p>#Molecules<br><small>630 mentions</small></p>
+          <p>#California<br><small>157 mentions</small></p>
+          <p>#SpringBreak<br><small>130 mentions</small></p>
+          <p>#SleepingInClass<br><small>113 mentions</small></p>
+          <p>#SchoolIsCool<br><small>110 mentions</small></p>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="wbg">
+          <span id="helpBlock" class="help-block">Post to Newsfeed</span>
+          <label class="sr-only" for="inputHelpBlock">nUPath Newsfeed</label>
+          <textarea id="post" class="form-control" rows="3" ng-model="pc.newPost.content"></textarea><br>
+          <input id="post-btn" class="btn btn-success" type="submit" name="submit" value="Post" ng-click="pc.submitPost()">
+        </div>
+
+        <div class="posts">
+          <div id="{{ post_id }}" class="posts wbg" ng-init="postIndex = $index" ng-repeat="post in pc.posts track by $index">
+            <div class="avatar">
+              {{ post._by.local.name[0] }}
+            </div>
+
+            <button class="btn-icon btn-delete-post" ng-click="pc.deletePost(post._id, $index)" ng-if="'<%=currentUser._id%>' == post._by._id">
+              <i class="fa fa-trash"></i>
+            </button>
+
+            <p class="name">{{ post._by.local.name }}</p>
+            <h4>{{ post.content }}</h4>
+            <p class="date">{{ post.createdAt | date }}</p>
+
+            <hr>
+
+            <div class="comments">
+              <div id="{{ comment._id }}" class="comment" ng-if="comment.active" ng-repeat="comment in post.comments">
+                <div class="avatar">
+                  {{ comment._by.local.name[0] }}
+                </div>
+
+                <button class="btn-icon btn-delete-comment" ng-click="pc.deleteComment(post._id, comment._id, postIndex)" ng-if="'<%=currentUser._id%>' == comment._by._id"><i class="fa fa-trash"></i></button>
+
+                <p class="comment-content"><strong>{{ comment._by.local.name }}</strong> {{ comment.content }}</p>
+
+              </div>
+            </div>
+
+            <div class="input-group input-group-comment">
+              <input type="text" class="form-control input-new-comment" id="comment" name="content" placeholder="" ng-model="pc['newComment' + post._id].content">
+              <span class="input-group-btn">
+                <button class="btn btn-default btn-new-comment" type="button" ng-click="pc.submitComment(post._id, $index)">Post Comment</button>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
   </div>
+</div>
 
-  <div class="col-md-8">
-  <div class="wbg">
-  <span id="helpBlock" class="help-block">Post to Newsfeed</span>
-  <label class="sr-only" for="inputHelpBlock">nUPath Newsfeed</label>
-  <textarea id="post" class="form-control" rows="3"></textarea><br>
-  <input id="post-btn" class="btn btn-success" type="submit" name="submit" value="Post">
-  </div>
-  <% data.forEach(function(post) { %>
-    <div id="<%= post._id %>" class="post wbg">
-      <div class="avatar">
-        <%= post._by.local.name[0] %>
-      </div>
-      <% if(currentUser._id.toString() == post._by._id.toString()){ %>
-      <!--<input class="btn btn-danger btn-delete-post" type="submit" name="submit" value="Delete Post">-->
-      <button class="btn-icon btn-delete-post"><i class="fa fa-trash"></i></button>
-      <% } %>
-      <p class="name"><%= post._by.local.name %></p>
-      <h4><%= post.content %></h4>
-      <% var date = new Date(post.createdAt) %>
-      <p class="date"><%= date.getMonth() + 1 %>/<%= date.getDate() %>/<%= date.getFullYear()%></p>
-      <hr>
-      <div class="comments">
-        <% post.comments.forEach(function(comment){ %>
-            <% if (comment.active) {%>
-              <div id="<%= comment._id %>" class="comment">
-              <div class="avatar">
-                <%= comment._by.local.name[0] %>
-              </div>
-              <p class="comment-content"><strong><%= comment._by.local.name %></strong> <%= comment.content %></p>
-              <% if(currentUser._id.toString() == comment._by._id.toString()){ %>
-              <!--<input class="btn btn-danger btn-delete-comment" type="submit" name="submit" value="Delete Comment">-->
-              <% } %>
-            </div>
-          <% } %>
-        <% }) %>
-      </div>
-      <div class="input-group input-group-comment">
-        <input type="text" class="form-control input-new-comment" id="comment" name="content" placeholder="">
-        <span class="input-group-btn">
-          <button class="btn btn-default btn-new-comment" type="button">Post Comment</button>
-        </span>
-      </div>
-  </div>
-  <% }) %>
-  </div>
-</div>
-</div>
 
 <script type="text/javascript">
-  var ourBody = $('body');
 
-  var postBtn = $('#post-btn');
+  angular.module('myApp', [])
+  .controller('PostsController', PostsController)
+  .filter('date', dateConverter)
 
-  var postInput = $('#post')
+  PostsController.$inject = ['$http'];
 
-  var panel = $('.panel-body')
+  function PostsController($http){
+    var vm = this;
+    vm.posts = [];
 
-  postBtn.on('click', function(evt){
-    evt.preventDefault();
-    var opts = {
-      method:'post',
-      url:'/posts',
-      contentType: 'application/json',
-      data: JSON.stringify({content: postInput.val()})
-    };
-    var cb = function(data){
-      postInput.val('');
-      var newPost = '';
-      newPost += '<div id="' + data._id + '">';
-      newPost += '<p>' + data._by.local.name + '</p>';
-      newPost += '<p>' + data.content + '</p>';
-      newPost += '<p>Post Id: ' + data._id + '</p>';
-      newPost += '<p>User Id: ' + data._by._id + '</p>';
-      newPost += '<p>' + data.createdAt + '</p>';
-      newPost += '<p><a href="/posts/' + data._id + '">View</a></p>';
-      newPost += '<input class="btn btn-danger btn-delete" type="submit" name="submit" value="Delete Post">';
-      newPost += '<hr />';
-      newPost += '<span class="help-block">Comment on this post!</span>'
-      newPost += '<form class="" action="/posts/' + data._id + '/comments" method="post">'
-      newPost += '<textarea id="comment" name="content" class="form-control" rows="2"></textarea><br>'
-      newPost += '<input class="btn btn-success btn-delete" type="submit" name="submit" value="Post Comment">';
-      newPost += '<br />'
-      newPost += '</form>'
-      newPost += '</div>';
-      newPost += '<hr>';
-      // var newPost = $('<div>', {id: data['_id'], class: 'panel-body', text: data['content']});
-      // console.log(data);
-      panel.prepend(newPost);
-    };
-    $.ajax(opts).done(cb);
-  });
+    vm.loadPosts = function(){
+      $http.get('/api/posts').then(function(data){
+        vm.posts = data.data;
+      })
+    }
 
-  $('body').on('click', '.btn-delete-post', function(evt){
-    evt.preventDefault();
-    var postId = $(this).parent()[0].id;
-    console.log(postId);
-    var opts = {
-      method: 'delete',
-      url: '/posts/' + postId
-    };
-    var cb = function(data){
-      $('#' + postId).remove();
-    };
-    $.ajax(opts).done(cb);
-  });
+    vm.loadPosts();
 
-  $('body').on('click', '.btn-new-comment', function(evt){
-    evt.preventDefault();
-    var postId = $(evt.target).parent().parent().parent()[0].id;
-    var comment = $(evt.target).parent().siblings('.input-new-comment');
+    vm.submitPost = function(){
+      $http.post('/api/posts', vm.newPost)
+      .then(function(data){
+        vm.posts.unshift(data.data);
+        vm.newPost = {}
+      })
+    }
 
-    var opts = {
-      method: 'post',
-      url: '/posts/' + postId + '/comments',
-      contentType: 'application/json',
-      data: JSON.stringify({content: comment.val()})
-    };
-    var cb = function(data){
-      comment.val('');
-      var newComment = '';
-      newComment += '<div id="' + data._id + '">';
-      newComment += '<p>' + data.content + '</p>';
-      newComment += '<p>Comment Id: ' + data._id + '</p>';
-      newComment += '<input class="btn btn-danger btn-delete-comment" type="submit" name="submit" value="Delete Comment">'
-      newComment += '<hr />';
-      newComment += '<div>';
+    vm.deletePost = function(id, index){
+      $http.delete('/api/posts/' + id)
+      .then(function(data){
+        vm.posts.splice(index, 1);
+      })
+    }
 
-      $('.comments').append(newComment);
-    };
-    $.ajax(opts).done(cb);
-  });
+    vm.submitComment = function(id, index){
+      $http.post('/api/posts/' + id + '/comments', vm['newComment' + id])
+      .then(function(data){
+        vm.posts[index].comments = data.data;
+        vm['newComment' + id] = {}
+      })
+    }
 
-  $('body').on('click', '.btn-delete-comment', function(evt){
-    evt.preventDefault();
-    var postId = $(evt.target).parent().parent().parent()[0].id;
-    var commentId = $(evt.target).parent()[0].id;
+    vm.deleteComment = function(postId, commentId, index){
+      $http.delete('/api/posts/' + postId + '/comments/' + commentId)
+      .then(function(data){
+        console.log(index);
+        vm.posts[index].comments = data.data;
+      })
+    }
 
-    var opts = {
-      method: 'delete',
-      url: '/posts/' + postId + '/comments/' + commentId
-    };
-    var cb = function(data){
-      $('#' + commentId).remove();
-    };
-    $.ajax(opts).done(cb);
-  });
+  }
+
+  function dateConverter(){
+    return function(date){
+      var date = new Date(date);
+      month = date.getMonth();
+      day = date.getDate();
+      year = date.getFullYear();
+
+      switch(month){
+        case 0: month = 'Jan'; break;
+        case 1: month = 'Feb'; break;
+        case 2: month = 'Mar'; break;
+        case 3: month = 'Apr'; break;
+        case 4: month = 'May'; break;
+        case 5: month = 'Jun'; break;
+        case 6: month = 'Jul'; break;
+        case 7: month = 'Aug'; break;
+        case 8: month = 'Sep'; break;
+        case 9: month = 'Oct'; break;
+        case 10: month = 'Nov'; break;
+        case 11: month = 'Dec'; break;
+      }
+
+      return month + ' ' + day + ', ' + year;
+    }
+  }
 
 </script>

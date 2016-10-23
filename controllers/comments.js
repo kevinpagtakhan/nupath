@@ -21,7 +21,10 @@ module.exports = {
           var newComment = data.comments[data.comments.length - 1];
           data.save(function(err){
             if(err) return res.json(err);
-            res.json(newComment)
+            Post.findById(req.params.id).populate('comments._by').exec(function(err, post){
+              if(err) return res.json(err);
+              res.json(post.comments)
+            })
           });
         })
   },
@@ -47,7 +50,7 @@ module.exports = {
 
     destroy: function(req, res) {
       //delete a comment
-      Post.findById(req.params.postId, function(err, data) {
+      Post.findById(req.params.postId).populate('comments._by').exec(function(err, data) {
         if (err) {
           res.json(err);
         } else {
@@ -55,7 +58,7 @@ module.exports = {
           comment.active = false;
           data.save(function(err){
             if(err) return res.json(err);
-            res.json(data)
+            res.json(data.comments)
           });
         }
       });
