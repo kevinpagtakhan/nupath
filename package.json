@@ -1,38 +1,39 @@
 {
- "name": "nupath",
- "version": "1.0.0",
- "description": "--- <br> ###About:",
- "main": "server.js",
- "scripts": {
-   "test": "echo \"Error: no test specified\" && exit 1",
-   "start": "node server.js"
- },
- "repository": {
-   "type": "git",
-   "url": "git+https://github.com/kevinpagtakhan/nupath.git"
- },
- "author": "",
- "license": "ISC",
- "bugs": {
-   "url": "https://github.com/kevinpagtakhan/nupath/issues"
- },
- "homepage": "https://github.com/kevinpagtakhan/nupath#readme",
- "dependencies": {
-   "bcrypt-nodejs": "0.0.3",
-   "body-parser": "^1.15.2",
-   "connect-flash": "^0.1.1",
-   "connect-mongo": "^1.3.2",
-   "cookie-parser": "^1.4.3",
-   "dotenv": "^2.0.0",
-   "ejs": "^2.5.2",
-   "express": "^4.14.0",
-   "express-ejs-layouts": "^2.2.0",
-   "express-session": "^1.14.1",
-   "method-override": "^2.3.6",
-   "mongoose": "^4.6.3",
-   "morgan": "^1.7.0",
-   "passport": "^0.3.2",
-   "passport-local": "^1.0.0",
-   "socket.io": "^1.5.0"
- }
+  "name": "nupath",
+  "version": "1.0.0",
+  "description": "--- <br> ###About:",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinpagtakhan/nupath.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kevinpagtakhan/nupath/issues"
+  },
+  "homepage": "https://github.com/kevinpagtakhan/nupath#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.2",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^1.3.2",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^2.0.0",
+    "ejs": "^2.5.2",
+    "express": "^4.14.0",
+    "express-ejs-layouts": "^2.2.0",
+    "express-session": "^1.14.1",
+    "method-override": "^2.3.6",
+    "mongoose": "^4.6.3",
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "request": "^2.75.0",
+    "socket.io": "^1.5.0"
+  }
 }

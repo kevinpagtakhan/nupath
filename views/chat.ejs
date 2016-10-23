@@ -1,78 +1,110 @@
-<div id="public-chat" class="col-md-8 col-md-offset-2">
+<div ng-app="myApp" ng-controller="ChatController as cc">
+  <div class="row">
+    <div id="public-chat" class="col-md-8 col-md-offset-2">
+      <div class="wbg">
+        <ul id="chat-container">
+          <li class="chat-message well {{ chat.mine }}" ng-repeat="chat in cc.chatThread">
+            <p ng-if="chat.type == 'text'"><small>{{ chat.user }}</small><br />{{ chat.message }}</p>
+            <p ng-if="chat.type == 'img'"><small>{{ chat.user }}</small><br /><br /><img ng-src="{{ chat.message }}" /></p>
+          </li>
+        </ul>
+      </div>
 
-  <div class="wbg">
-    <ul id="chat-container">
-    </ul>
+      <input id="chat-message" class="form-control" type="text" name="message" value="" placeholder="Type your message" ng-model="cc.newMessage.message">
+      <button id="chat-submit" class="btn btn-default" ng-click="cc.sendMessage()">Send</button>
+
+      <input id="giphy-search" class="form-control" type="text" placeholder="Search Giphy" ng-model="cc.search.term"ng-keyup="cc.searchGiphy()"><br>
+      <div id="gif-container">
+        <img class="giphy" ng-src="{{ giphy.images.fixed_height.url }}" alt="" ng-repeat="giphy in cc.giphyList" ng-click="cc.sendGiphy(giphy.images.fixed_height.url)" />
+      </div>
+
+    </div>
   </div>
-
-  <form id="chat-form" action="">
-    <input id="chat-message" class="form-control" type="text" name="message" value="" placeholder="Type your message">
-    <button id="chat-submit" class="btn btn-default">Send</button>
-  </form>
-
-  <input id="giphy-search" class="form-control" type="text" name="" value="" placeholder="Search Giphy"><br>
-  <div id="gif-container">
-  </div>
-
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script type="text/javascript">
-  var socket = io('/chat');
 
-  $('#chat-submit').on('click', function(evt){
-    evt.preventDefault();
-    socket.emit('new-chat', {user: "<%= currentUser._id %>", message: $('#chat-message').val()});
-    $('#chat-message').val('')
-  });
-
-  socket.on('broadcast-chat', function(data){
-    var messageClass = ''
-    if ('<%= currentUser.local.name %>' == data.user){
-      messageClass = 'mine';
-    }
-    $('#chat-container').append('<li class="chat-message well ' + messageClass + '"><p><small>' + data.user + '</small></p></p>' + data.message + '</p></li>')
-    var objDiv = document.getElementById("chat-container");
-    objDiv.scrollTop = objDiv.scrollHeight;
-  });
-
-  $('#giphy-search').on('keyup', function(evt){
-    $.ajax({
-      method: 'get',
-      url: 'http://api.giphy.com/v1/gifs/search?q=' + $(evt.target).val() + '&api_key=dc6zaTOxFJmzC'
-    }).done(function(data){
-      $('#gif-container').html('');
-      data.data.forEach(function(el){
-        $('#gif-container').append('<img class="giphy" src="' + el.images.fixed_height.url + '" />');
-      })
-    });
-  });
-
-  // http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=american+psycho
-
-  $.ajax({
-    method: 'get',
-    url: 'http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC'
-  }).done(function(data){
-    $('#gif-container').html('');
-    data.data.forEach(function(el){
-      $('#gif-container').append('<img class="giphy" src="' + el.images.fixed_height.url + '" />');
-    })
-  });
-
-  socket.on('broadcast-giphy', function(data){
-    var messageClass = ''
-    if ('<%= currentUser.local.name %>' == data.user){
-      messageClass = 'mine';
-    }
-    $('#chat-container').append('<li class="chat-message well ' + messageClass + '"><p><small>' + data.user + '</small></p><p><img src="' + data.message + '" /></p></li>')
-    var objDiv = document.getElementById("chat-container");
-    objDiv.scrollTop = objDiv.scrollHeight;
-  });
-
-  $('body').on('click', 'img', function(evt){
-    socket.emit('new-giphy', {user: "<%= currentUser._id %>", message: $(evt.target).attr('src')});
-    $('#giphy-search').val('');
+  angular.module('myApp', [])
+  .controller('ChatController', ChatController)
+  .factory('socket', function ($rootScope) {
+    var socket = io.connect('/chat');
+    return {
+      on: function (eventName, callback) {
+        socket.on(eventName, function () {
+          var args = arguments;
+          $rootScope.$apply(function () {
+            callback.apply(socket, args);
+          });
+        });
+      },
+      emit: function (eventName, data, callback) {
+        socket.emit(eventName, data, function () {
+          var args = arguments;
+          $rootScope.$apply(function () {
+            if (callback) {
+              callback.apply(socket, args);
+            }
+          });
+        })
+      }
+    };
   })
+
+  ChatController.$inject = ['$http', 'socket'];
+
+  function ChatController($http, socket){
+    var vm = this;
+    vm.chatThread = [];
+
+    vm.sendMessage = function(){
+      socket.emit('new-chat', {user: "<%= currentUser._id %>", message: vm.newMessage.message});
+      vm.newMessage = {};
+    };
+
+    socket.on('broadcast-chat', function(data){
+      if ('<%= currentUser.local.name %>' == data.user){
+        data.mine = 'mine';
+      }
+      data.type = 'text';
+      vm.chatThread.push(data);
+
+      var objDiv = document.getElementById("chat-container");
+      objDiv.scrollTop = objDiv.scrollHeight + 100;
+    });
+
+    vm.searchGiphy = function(trending){
+      if (trending) {
+        $http.get('http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC')
+        .then(function(data){
+          vm.giphyList = data.data.data;
+        })
+      } else {
+        $http.get('/api/giphy/' + vm.search.term)
+        .then(function(data){
+          vm.giphyList = data.data.data;
+        })
+      }
+    }
+
+    vm.searchGiphy(true);
+
+    vm.sendGiphy = function(imgUrl){
+      socket.emit('new-giphy', {user: "<%= currentUser._id %>", message: imgUrl});
+      vm.search = {};
+    };
+
+    socket.on('broadcast-giphy', function(data){
+      if ('<%= currentUser.local.name %>' == data.user){
+        data.mine = 'mine';
+      }
+
+      data.type = 'img';
+      vm.chatThread.push(data);
+
+      var objDiv = document.getElementById("chat-container");
+      objDiv.scrollTop = objDiv.scrollHeight;
+    });
+  }
 
 </script>

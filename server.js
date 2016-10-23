@@ -17,7 +17,8 @@ var
     passport = require('passport'),
     passportConfig = require('./config/passport.js'),
     userRoutes = require('./routes/users.js'),
-    User = require('./models/User.js')
+    User = require('./models/User.js'),
+    request = require('request')
 
 // Require chat message model
 var Message = require('./models/Message.js');
@@ -105,6 +106,12 @@ app.use('/api/users', userRoutes);
 app.use('/api/chat-messages', chatRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/messages', messageThreadsRoutes);
+
+app.get('/api/giphy/:id', function(req, res){
+  request('http://api.giphy.com/v1/gifs/search?q=' + req.params.id + '&api_key=dc6zaTOxFJmzC', function(err, response, body){
+    res.json(err || JSON.parse(body));
+  });
+});
 
 
 // end using routes -->
