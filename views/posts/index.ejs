@@ -31,8 +31,12 @@
 
         <div class="posts">
           <div id="{{ post_id }}" class="posts wbg" ng-init="postIndex = $index" ng-repeat="post in pc.posts track by $index">
-            <div class="avatar">
+            <div class="avatar" ng-if="post.polarity != 'negative'">
               {{ post._by.local.name[0] }}
+            </div>
+
+            <div class="alert avatar" ng-if="post.polarity == 'negative'">
+              <i class="glyphicon glyphicon-alert"></i>
             </div>
 
             <button class="btn-icon btn-delete-post" ng-click="pc.deletePost(post._id, $index)" ng-if="'<%=currentUser._id%>' == post._by._id">

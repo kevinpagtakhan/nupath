@@ -3,6 +3,12 @@
 var Post = require('../models/Post.js')
 var User = require('../models/User.js')
 
+var AYLIENTextAPI = require('aylien_textapi');
+var textapi = new AYLIENTextAPI({
+  application_id: process.env.TA_APP_ID,
+  application_key: process.env.TA_KEY
+});
+
 //models exports/ POST VERBS
 module.exports = {
   index: function(req, res){
@@ -17,31 +23,45 @@ module.exports = {
   },
 
   create: function(req, res) {
-    console.log(req.body)
-    User.findById(req.user.id, function(err, data){
-      var newPost = new Post();
-      newPost.content = req.body.content;
-      newPost._by = req.user.id;
-      newPost.save(function(err){
-        if (err) {
-          res.json(err);
-        } else {
-          data.posts.push(newPost);
-          data.save(function(err){
+    textapi.sentiment({
+      text: req.body.content,
+      mode: 'tweet'
+    }, function(err, response) {
+      if(err){
+        res.json(err);
+        console.log(err);
+      } else {
+        console.log(response);
+        User.findById(req.user.id, function(err, data){
+          var newPost = new Post();
+          newPost.content = req.body.content;
+          newPost.polarity = response.polarity;
+          newPost.subjectivity = response.subjectivity;
+          newPost.polarity_confidence = response.polarity_confidence;
+          newPost.subjectivity_confidence = response.subjectivity_confidence;
+          newPost._by = req.user.id;
+          newPost.save(function(err){
             if (err) {
               res.json(err);
             } else {
-              Post.populate(newPost, {path: '_by'}, function (err, post) {
+              data.posts.push(newPost);
+              data.save(function(err){
                 if (err) {
                   res.json(err);
                 } else {
-                  res.json(post)
+                  Post.populate(newPost, {path: '_by'}, function (err, post) {
+                    if (err) {
+                      res.json(err);
+                    } else {
+                      res.json(post)
+                    }
+                  })
                 }
               })
             }
           })
-        }
-      })
+        });
+      }
     });
   },
 

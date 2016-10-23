@@ -239,3 +239,8 @@ form {
 .input-user-search{
   width: 100%;
 }
+
+#newsfeed .alert{
+  background-color: red;
+  line-height: 50px;
+}

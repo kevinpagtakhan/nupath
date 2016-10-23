@@ -12,6 +12,10 @@ var commentSchema = mongoose.Schema({
 var postSchema = mongoose.Schema({
   _by: {type: mongoose.Schema.Types.ObjectId, ref:'User'},
   content: {type: String, trim: true},
+  polarity: String,
+  subjectivity: String,
+  polarity_confidence: Number,
+  subjectivity_confidence: Number,
   comments: [commentSchema],
   active: {type: Boolean, default: true}
 },
