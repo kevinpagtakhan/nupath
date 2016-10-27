@@ -5,7 +5,10 @@ var
 
 userRouter.route('/')
 	 .get(usersController.index)
-	 .post(usersController.create);
+	 .post(usersController.create)
+
+userRouter.route('/sign-s3')
+	 .get(usersController.upload)
 
 userRouter.route('/:id')
 	  .get(usersController.show)
@@ -26,6 +29,5 @@ userRouter.route('/:id/achievements/:achId')
 					.get(achievementsController.show)
 					.patch(achievementsController.update)
 					.delete(achievementsController.delete);
-
 
 module.exports = userRouter;

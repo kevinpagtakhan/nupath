@@ -44,9 +44,17 @@
 
       <h3>Profile</h3>
       <hr>
-      <p><strong>Email</strong>: <%= user.local.email %></p>
-      <p><strong>School</strong>: <%= user.local.school %></p>
-      <p><strong>Joined</strong>: <%= user.createdAt %></p>
+      <%# Photo upload goes here %>
+      <div class="user-avatar-container">
+        <img class="user-avatar" src="<%= currentUser.avatar %>">
+        <input type="file" id="file-input">
+      </div>
+
+      <div class="user-profile-container">
+        <p><strong>Email</strong>: <%= user.local.email %></p>
+        <p><strong>School</strong>: <%= user.local.school %></p>
+        <p><strong>Joined</strong>: <%= user.createdAt %></p>
+      </div>
 
       <a href="/logout" class="btn btn-default btn-sm">Logout</a>
 
@@ -124,5 +132,58 @@
       console.log(data);
       $('#' + data._id).remove();
     });
-  })
+  });
+
+  (function(){
+    $('#file-input').change(function(){
+      const files = $('#file-input').prop('files');
+      const file = files[0];
+      if(file == null){
+        return alert('No file selected.');
+      }
+      // console.log(file);
+      getSignedRequest(file);
+    })
+  })();
+
+  function getSignedRequest(file){
+    // console.log(file);
+    $.ajax({
+      method: 'get',
+      url: '/api/users/sign-s3?file-name=' + file.name + '&file-type=' + file.type
+    }).done(function(data){
+      // console.log(data);
+      const response = JSON.parse(data);
+      // console.log(response);
+      uploadFile(file, response.signedData, response.url);
+    })
+  }
+
+  function uploadFile(file, signedRequest, url){
+    // console.log(file);
+    // console.log(signedRequest);
+    // console.log(url);
+    const xhr = new XMLHttpRequest();
+    xhr.open('PUT', signedRequest);
+    xhr.onreadystatechange = function() {
+      if(xhr.readyState === 4){
+        if(xhr.status === 200){
+          // Send update request
+          $.ajax({
+            method: 'patch',
+            url: '/api/users/<%= currentUser._id %>',
+            contentType: 'application/json',
+            data: JSON.stringify({avatar: url})
+          }).done(function(data){
+            document.getElementById('preview').src = url;
+            // document.getElementById('avatar-url').value = url;
+          })
+        }
+        else{
+          alert('Could not upload file.');
+        }
+      }
+    };
+    xhr.send(file);
+  }
 </script>

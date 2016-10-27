@@ -17,6 +17,7 @@ var userSchema = mongoose.Schema({
     password: String,
     school: String
   },
+  avatar: String,
   posts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Post'}],
   achievements: [achievementSchema],
   messageThreads: [{type: mongoose.Schema.Types.ObjectId, ref: 'MessageThread'}],

@@ -1,6 +1,7 @@
 //Users controller
 
 var User = require('../models/User.js');
+var aws = require('aws-sdk');
 
 module.exports = {
 
@@ -76,6 +77,32 @@ module.exports = {
       } else {
         res.json(data.messageThreads);
       }
+    })
+  },
+
+  upload: function(req, res){
+    var s3 = new aws.S3();
+    var fileName = req.query['file-name'];
+    var fileType = req.query['file-type'];
+    const s3Params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: fileName,
+      Expires: 60,
+      ContentType: fileType,
+      ACL: 'public-read'
+    };
+
+    s3.getSignedUrl('putObject', s3Params, function(err, data){
+      if(err) {
+        console.log(err);
+        return res.end();
+      }
+      const returnData = {
+        signedData: data,
+        url: 'https://' + process.env.AWS_BUCKET_NAME + '.s3.amazonaws.com/' + fileName
+      }
+      res.write(JSON.stringify(returnData));
+      res.end();
     })
   }
 }
