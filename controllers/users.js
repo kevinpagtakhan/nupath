@@ -17,7 +17,7 @@ module.exports = {
   },
 
   show: function(req, res){
-  	User.findById(req.params.id).populate({path:'posts', populate:{path:'comments._by'} }).exec(function(err, data){
+  	User.findById(req.params.id).populate({path:'posts messageThreads', populate:{path:'comments._by messages users'} }).exec(function(err, data){
     	if (err) {
       	res.json(err);
       } else {

@@ -1,4 +1,4 @@
-<div id="profile">
+<div id="profile" ng-app="myApp" ng-controller="ProfileController as pc">
 
 <div id="<%= user._id %>" class="row">
   <h1><%= user.local.name %></h1>
@@ -46,14 +46,14 @@
       <hr>
       <%# Photo upload goes here %>
       <div class="user-avatar-container">
-        <img class="user-avatar" src="<%= currentUser.avatar %>">
+        <img id="user-avatar" class="user-avatar" ng-src="{{ pc.currentUser.avatar }}">
         <input type="file" id="file-input">
       </div>
 
       <div class="user-profile-container">
-        <p><strong>Email</strong>: <%= user.local.email %></p>
-        <p><strong>School</strong>: <%= user.local.school %></p>
-        <p><strong>Joined</strong>: <%= user.createdAt %></p>
+        <p><strong>Email</strong>: {{ pc.currentUser.local.email }}</p>
+        <p><strong>School</strong>: {{ pc.currentUser.local.school }}</p>
+        <p><strong>Joined</strong>: {{ pc.currentUser.createdAt }}</p>
       </div>
 
       <a href="/logout" class="btn btn-default btn-sm">Logout</a>
@@ -65,29 +65,22 @@
     <div class="wbg">
       <h3>Messages</h3>
       <hr>
-        <% user.messageThreads.forEach(function(el){%>
-          <div class="messages">
-          <a href="/messages">
-            <% var name = '' %>
-            <% if (el.users[0]._id.toString() != currentUser._id.toString()) { %>
-              <% name = el.users[0].local.name %>
-            <% } else { %>
-              <% name = el.users[1].local.name %>
-            <% } %>
-            <div class="avatar">
-              <%= name[0] %>
-            </div>
-            <div class="message">
-              <p class="sender"> <%= name %> </p>
-              <% if(el.messages[el.messages.length - 1]) { %>
-                <p class="peek"><%= el.messages[el.messages.length - 1].content %></p>
-              <% } else { %>
-                <p lass="peek">Say hello!</p>
-              <% } %>
-            </div>
-          </a>
+      <div class="">
+        <div class="messages" ng-if="thread.active" ng-repeat="thread in pc.currentUser.messageThreads">
+          <div class="avatar">
+            <span ng-hide="pc.currentUser._id == thread.users[0]._id">{{ thread.users[0].local.name[0] }}</span>
+            <span ng-hide="pc.currentUser._id == thread.users[1]._id">{{ thread.users[1].local.name[0] }}</span>
           </div>
-        <% }) %>
+          <div class="message">
+            <p ng-hide="pc.currentUser._id == thread.users[0]._id" class="sender"> {{ thread.users[0].local.name }} </p>
+            <p ng-hide="pc.currentUser._id == thread.users[1]._id" class="sender"> {{ thread.users[1].local.name }} </p>
+            <p class="peek" ng-show="thread.messages[thread.messages.length - 1]">{{ thread.messages[thread.messages.length - 1].content }}</p>
+            <p class="peek" ng-hide="thread.messages[thread.messages.length - 1]">Say hello</p>
+            <p></p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -98,6 +91,15 @@
       </button>
       <h3>Achievement</h3>
       <hr>
+      <div class="achievements">
+        <div id="{{ achievements._id }}" class="achievement" ng-if="achievement.active" ng-repeat="achievement in pc.currentUser.achievements">
+
+          <small>{{ achievement.year }}</small>
+          <h4>{{ achievement.title }}</h4>
+          <p>{{ achievement.description }}</p>
+        </div>
+      </div>
+
       <% user.achievements.forEach(function(el){ %>
         <% if(el.active) { %>
           <div id="<%= el._id %>" class="achievement">
@@ -120,6 +122,21 @@
 </div>
 
 <script type="text/javascript">
+  angular.module('myApp', [])
+  .controller('ProfileController', ProfileController)
+
+  ProfileController.$inject = ['$http'];
+
+  function ProfileController($http){
+    var vm = this;
+    // Request user details
+    $http.get('/api/users/<%= currentUser._id %>')
+    .then(function(data){
+      console.log(data);
+      vm.currentUser = data.data.user;
+    })
+  }
+
   $('.btn-delete-achievement').on('click', function(evt){
     evt.preventDefault();
     console.log($(this).parent().attr('id'));
@@ -175,7 +192,7 @@
             contentType: 'application/json',
             data: JSON.stringify({avatar: url})
           }).done(function(data){
-            document.getElementById('preview').src = url;
+            document.getElementById('user-avatar').src = url;
             // document.getElementById('avatar-url').value = url;
           })
         }
