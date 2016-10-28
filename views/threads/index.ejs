@@ -1,29 +1,22 @@
-<div id="inbox">
+<div id="inbox" ng-app="myApp" ng-controller="MessagesController as mc">
 <h1>Messages</h1>
 <hr>
 <div id="" class="threads col-md-4">
   <div class="wbg">
-    <% data.forEach(function(el){%>
-      <div id="<%= el._id %>" class="messages">
-        <% var name = '' %>
-        <% if (el.users[0]._id.toString() != currentUser._id.toString()) { %>
-          <% name = el.users[0].local.name %>
-        <% } else { %>
-          <% name = el.users[1].local.name %>
-        <% } %>
-        <div class="avatar">
-          <%= name[0] %>
-        </div>
-        <div class="message">
-          <p class="sender"> <%= name %> </p>
-          <% if(el.messages.length > 0) { %>
-            <p class="peek"><%= el.messages[el.messages.length - 1].content %></p>
-          <% } else { %>
-            <p class="peek">Say hello!</p>
-          <% } %>
-        </div>
+    <div class="thread" ng-if="thread.active" ng-repeat="thread in mc.currentUser.messageThreads">
+      <div class="avatar">
+        <span ng-hide="mc.currentUser._id == thread.users[0]._id">{{ thread.users[0].local.name[0] }}</span>
+        <span ng-hide="mc.currentUser._id == thread.users[1]._id">{{ thread.users[1].local.name[0] }}</span>
       </div>
-    <% }) %>
+      <div class="message">
+        <p ng-hide="mc.currentUser._id == thread.users[0]._id" class="sender"> {{ thread.users[0].local.name }} </p>
+        <p ng-hide="mc.currentUser._id == thread.users[1]._id" class="sender"> {{ thread.users[1].local.name }} </p>
+        <p class="peek" ng-show="thread.messages[thread.messages.length - 1]">{{ thread.messages[thread.messages.length - 1].content }}</p>
+        <p class="peek" ng-hide="thread.messages[thread.messages.length - 1]">Say hello</p>
+        <p></p>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -32,7 +25,23 @@
   </div>
 </div>
 </div>
+
 <script type="text/javascript">
+  angular.module('myApp', [])
+    .controller('MessagesController', MessagesController)
+
+  MessagesController.$inject = ['$http'];
+
+  function MessagesController($http){
+    var vm = this;
+    // Request user details
+    $http.get('/api/users/<%= currentUser._id %>')
+    .then(function(data){
+      console.log(data);
+      vm.currentUser = data.data.user;
+    })
+  }
+
   $('.messages').on('click', function(evt){
     $('.messages').css('background-color', 'transparent');
     $(this).css('background-color', '#ADD8E6');

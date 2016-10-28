@@ -99,7 +99,7 @@ app.use('/posts', function(req, res){
   res.render('posts/index.ejs');
 });
 app.use('/messages', function(req, res){
-  res.render('messages/index.ejs');
+  res.render('threads/index.ejs');
 });
 
 app.use('/api/users', userRoutes);
