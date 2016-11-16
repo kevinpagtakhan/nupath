@@ -6,6 +6,7 @@ body {
   /*font-family: 'Comfortaa', cursive;*/
   font-family: 'Cabin', sans-serif;
   background: #e2e2e2;
+  padding-bottom: 80px;
 }
 
 h4, h5, h6{
@@ -39,7 +40,7 @@ form {
 }
 
 #public-chat{
-  height: 600px;
+  min-height: 600px;
 }
 
 #chat-container{
