@@ -170,6 +170,10 @@ form {
   padding: 10px 0px;
 }
 
+#inbox .thread{
+  padding: 10px 0px;
+}
+
 #profile .messages:hover .avatar,
 #users .user:hover .avatar{
   background: #77DD77;
@@ -264,4 +268,18 @@ form {
 
 .user-avatar-container{
   text-align: center;
+}
+
+.thread{
+  padding-bottom: 20px;
+}
+
+.thread:last-child{
+  padding-bottom: 0;
+}
+
+.thread-avatar{
+  max-width: 50px;
+  border-radius: 100%;
+  margin-right: 10px;
 }

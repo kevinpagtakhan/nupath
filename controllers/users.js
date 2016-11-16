@@ -85,7 +85,7 @@ module.exports = {
     var fileName = req.query['file-name'];
     var fileType = req.query['file-type'];
     const s3Params = {
-      Bucket: process.env.AWS_BUCKET_NAME,
+      Bucket: process.env.NUPATH_AWS_BUCKET_NAME,
       Key: fileName,
       Expires: 60,
       ContentType: fileType,
@@ -99,7 +99,7 @@ module.exports = {
       }
       const returnData = {
         signedData: data,
-        url: 'https://' + process.env.AWS_BUCKET_NAME + '.s3.amazonaws.com/' + fileName
+        url: 'https://' + process.env.NUPATH_AWS_BUCKET_NAME + '.s3.amazonaws.com/' + fileName
       }
       res.write(JSON.stringify(returnData));
       res.end();
