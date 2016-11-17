@@ -27,6 +27,12 @@
       {{ message.content }}
     </div>
   </div>
+  <div class="input-group input-group-comment" ng-show="mc.activeThreadId">
+    <input type="text" class="form-control input-new-comment" name="content" placeholder="" ng-model="mc.newMessage.content">
+    <span class="input-group-btn">
+      <button class="btn btn-default btn-new-message" type="button" ng-click="mc.sendMessage()">Send</button>
+    </span>
+  </div>
 </div>
 </div>
 
@@ -38,6 +44,7 @@
 
   function MessagesController($http){
     var vm = this;
+    var newMessage = {};
     // Request user details
     $http.get('/api/users/<%= currentUser._id %>')
     .then(function(data){
@@ -46,11 +53,21 @@
     })
 
     vm.openThread = function(threadId){
+      vm.activeThreadId = threadId;
       console.log(threadId);
 
       $http.get('/api/messages/' + threadId)
       .then(function(data){
         vm.messages = data.data.messages;
+      })
+    }
+
+    vm.sendMessage = function(){
+      $http.post('/api/messages/' + vm.activeThreadId + '/message', vm.newMessage)
+      .then(function(data){
+        console.log(data);
+        vm.messages.push(data.data);
+        var newMessage = {};
       })
     }
   }
