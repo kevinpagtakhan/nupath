@@ -135,11 +135,17 @@ form {
 
 #users .avatar{
   float: none;
-  height: 100px;
-  width: 100px;
+  max-height: 100px;
+  max-width: 100px;
   line-height: 100px;
   font-size: 36px;
   margin: 0 auto;
+}
+
+#users .avatar img{
+  max-height: 100px;
+  max-width: 100px;
+  border-radius: 100%;
 }
 
 #newsfeed .comment .avatar,

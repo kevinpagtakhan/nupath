@@ -17,7 +17,8 @@
   <div>
     <div class="col-md-4" ng-repeat="user in uc.users | filter:searchName track by $index">
       <div id={{user._id}} class="user wbg">
-        <div class="avatar">{{ user.local.name[0] }}</div>
+        <div class="avatar" ng-hide="user.avatar">{{ user.local.name[0] }}</div>
+        <div class="" ng-show="user.avatar"><img class="avatar" ng-src="{{ user.avatar }}" alt="" /></div>
         <h3 class="name">{{ user.local.name }}</h3>
         <p>{{ user.local.email }}</p>
         <p>{{ user.local.school }}</p>
