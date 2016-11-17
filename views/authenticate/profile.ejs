@@ -99,22 +99,6 @@
           <p>{{ achievement.description }}</p>
         </div>
       </div>
-
-      <% user.achievements.forEach(function(el){ %>
-        <% if(el.active) { %>
-          <div id="<%= el._id %>" class="achievement">
-            <button class="btn-icon btn-delete-achievement"><i class="fa fa-trash"></i></button>
-            <small><%= el.year%></small>
-            <h4><%= el.title%></h4>
-            <p><%= el.description%></p>
-            <!--
-            <form class="" action="/users/<%= user._id %>/achievements/<%= el._id %>?_method=delete" method="post">
-            <input class="btn btn-danger btn-sm" type="submit" name="submit" value="Delete Achievement">
-            </form>
-            -->
-          </div>
-        <% } %>
-      <% }) %>
     </div>
   </div>
 </div>
